@@ -24,10 +24,10 @@ public class Advices {
     @Before("execution(* aoptest.Math.*(..))")
     public void before(JoinPoint jp){
         System.out.println("----------前置通知----------");
-        for (int i = 0; i < jp.getArgs().length; i++) {
+        /*for (int i = 0; i < jp.getArgs().length; i++) {
             System.out.println(jp.getArgs()[i]);
         }
-        System.out.println(jp.getSignature().getName());
+        System.out.println(jp.getSignature().getName());*/
     }
 
    /* 每一个方法执行之后执行一段代码*/
@@ -48,17 +48,17 @@ public class Advices {
         //执行目标方法
         try {
             //前置通知
-            System.out.println("The method " + methodName + " begins with " + Arrays.asList(proceedingJoinPoint.getArgs()));
+            System.out.println( methodName + " 方法参数列表： " + Arrays.asList(proceedingJoinPoint.getArgs()));
             result = proceedingJoinPoint.proceed();
             //返回通知
-            System.out.println("The method " + methodName + " ends with " + Arrays.asList(proceedingJoinPoint.getArgs()));
+            System.out.println(methodName + " 方法 返回通知" + result);
         } catch (Throwable e) {
             //异常通知
-            System.out.println("The method " + methodName + " occurs expection : " + e);
+            System.out.println(methodName + " 异常： " + e);
             throw new RuntimeException(e);
         }
         //后置通知
-        System.out.println("The method " + methodName + " ends");
+        System.out.println(methodName + "结束");
         return result;
     }
 
@@ -69,7 +69,7 @@ public class Advices {
     @AfterReturning(value="execution(* aoptest.Math.*(..))",returning="result")
     public void afterReturning(JoinPoint joinPoint, Object result) {
         String methodName = joinPoint.getSignature().getName();
-        System.out.println("The method " + methodName + " return with " + result);
+        System.out.println(methodName + " 返回值： " + result);
     }
 
     /**
@@ -79,6 +79,6 @@ public class Advices {
     @AfterThrowing(value = "execution(* aoptest.Math.*(..))", throwing = "ex")
     public void afterThrowing(JoinPoint joinPoint, Exception ex) {
         String methodName = joinPoint.getSignature().getName();
-        System.out.println("The method " + methodName + " occurs exception: " + ex);
+        System.out.println( methodName + "抛出异常：" + ex);
     }
 }
